@@ -25,6 +25,7 @@
 
 ### 🐛 Bug fixes
 
+- [android] fix renderingMode for toolbar icons ([#46149](https://github.com/expo/expo/pull/46149) by [@Ubax](https://github.com/Ubax))
 - add missing exports to js-tabs and js-top-tabs ([#46117](https://github.com/expo/expo/pull/46117) by [@Ubax](https://github.com/Ubax))
 - [ios] fix selected icon assignment when no selected is specified ([#46096](https://github.com/expo/expo/pull/46096) by [@Ubax](https://github.com/Ubax))
 
