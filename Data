@@ -1,0 +1,91 @@
+// data/products.ts
+
+export type PillarType = 'HIMALAYAN_PANTRY' | 'SUSTAINABLE_HERITAGE' | 'SACRED_ARTS';
+
+export interface Product {
+  id: string;
+  name: string;
+  pillar: PillarType;
+  price: number;
+  description: string;
+  region: string;
+  producer: string;
+  story: string;
+  materialBlend?: string; // Optional spec for textiles
+  mukhiCount?: number;    // Optional spec for sacred items
+}
+
+export const HAMPALAYA_INVENTORY: Product[] = [
+  {
+    id: "ghee-01",
+    name: "Artisanal Himalayan Ghee",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 32,
+    description: "Slow-clarified mountain butter hand-churned before sunrise.",
+    region: "Mustang, Nepal",
+    producer: "Thakali Artisanal Cooperative",
+    story: "Sourced from high-altitude native cows grazing on pristine alpine herbs at 3,500 meters. Hand-churned using traditional wooden 'Theki' vessels, yielding an intensely aromatic, golden elixir rich in medicinal properties."
+  },
+  {
+    id: "honey-01",
+    name: "Wild Cliff Honey",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 45,
+    description: "Raw, unpasteurized honey sustainably harvested from high cliffs.",
+    region: "Lamjung",
+    producer: "Gurung Honey Hunters",
+    story: "Harvested twice a year by indigenous hunters hanging from hand-woven hemp ropes on sheer vertical rock faces. This rare honey carries subtle psychotropic notes from wild Himalayan rhododendron blossoms."
+  },
+  {
+    id: "pickle-01",
+    name: "Timur and Mango Pickle",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 12,
+    description: "Fermented mango relish infused with sharp wild Nepalese timur pepper.",
+    region: "Hilly regions",
+    producer: "Local Women's Cooperative",
+    story: "A sharp, fiery condiment aged in traditional earthenware jars. Infused with wild-harvested Timur pepper, which introduces a distinct, citrusy, tongue-tingling numbing sensation unique to Nepalese gastronomy."
+  },
+  {
+    id: "meat-01",
+    name: "Premium Dry Meat (Sukuti)",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 28,
+    description: "Traditional sun-dried, deeply seasoned cured lean mountain jerky.",
+    region: "Manang",
+    producer: "Mountain Smokehouse",
+    story: "Lean mountain meat thinly sliced, marinated in secret Himalayan spice combinations, and slowly cured over natural firewood smoke and crisp mountain air to maximize preservation and savory depth."
+  },
+  {
+    id: "chhurpi-01",
+    name: "Aged Yak Cheese (Chhurpi)",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 16,
+    description: "Authentic smoke-dried ultra-hard cheese built to endure.",
+    region: "Dolpo Region",
+    producer: "Sherpa Herders",
+    story: "The ultimate survival food. Created from pure yak milk boiled in copper vats, pressed in jute wrap, and sun-dried for months until rock-hard. Provides sustained energy and enduring Himalayan character."
+  },
+  {
+    id: "hemp-01",
+    name: "Raw Hemp Fabric Jacket",
+    pillar: "SUSTAINABLE_HERITAGE",
+    price: 135,
+    description: "Durable, breathable natural organic fiber jacket woven from wild hand-spun hemp.",
+    region: "Darchula District",
+    producer: "Weaving Cooperatives",
+    materialBlend: "100% Himalayan Hemp",
+    story: "Entirely handcrafted from wild cannabis plants growing freely in western Nepal. The fibers are stripped, retted, hand-spun, and woven on traditional backstrap looms to construct an ultra-durable, breathable jacket."
+  },
+  {
+    id: "rudraksha-01",
+    name: "5 Mukhi Rudraksha Mala",
+    pillar: "SACRED_ARTS",
+    price: 30,
+    description: "Sacred bead mala harvested responsibly from pristine eastern forests for meditation.",
+    region: "Sankhuwasabha",
+    producer: "Heritage Forest Keepers",
+    mukhiCount: 5,
+    story: "An assembly of 108 authentic, matching Elaeocarpus ganitrus seeds. Hand-collected from sustainable forest floors, cleaned meticulously, and strung by local spiritual practitioners to preserve natural energetic frequencies."
+  }
+];
