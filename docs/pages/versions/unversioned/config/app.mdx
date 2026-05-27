@@ -1,24 +1,290 @@
----
-title: app.json / app.config.js
-description: A reference of available properties in Expo app config.
-maxHeadingDepth: 5
----
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 
-import { BookOpen02Icon } from '@expo/styleguide-icons/outline/BookOpen02Icon';
+// 1. YOUR AUTHENTIC HIMALAYAN INVENTORY DATA
+const HAMPALAYA_INVENTORY = [
+  {
+    id: "ghee-01",
+    name: "Artisanal Himalayan Ghee",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 32,
+    description: "Slow-clarified mountain butter hand-churned before sunrise.",
+    region: "Mustang, Nepal",
+    producer: "Thakali Artisanal Cooperative"
+  },
+  {
+    id: "honey-01",
+    name: "Wild Cliff Honey",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 45,
+    description: "Raw, unpasteurized honey sustainably harvested from high cliffs.",
+    region: "Lamjung",
+    producer: "Gurung Honey Hunters"
+  },
+  {
+    id: "pickle-01",
+    name: "Timur and Mango Pickle",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 12,
+    description: "Fermented mango relish infused with sharp wild Nepalese timur pepper.",
+    region: "Hilly regions",
+    producer: "Local Women's Cooperative"
+  },
+  {
+    id: "meat-01",
+    name: "Premium Dry Meat (Sukuti)",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 28,
+    description: "Traditional sun-dried, deeply seasoned cured lean mountain jerky.",
+    region: "Manang",
+    producer: "Mountain Smokehouse"
+  },
+  {
+    id: "chhurpi-01",
+    name: "Aged Yak Cheese (Chhurpi)",
+    pillar: "HIMALAYAN_PANTRY",
+    price: 16,
+    description: "Authentic smoke-dried ultra-hard cheese built to endure.",
+    region: "Dolpo Region",
+    producer: "Sherpa Herders"
+  },
+  {
+    id: "hemp-01",
+    name: "Raw Hemp Fabric Jacket",
+    pillar: "SUSTAINABLE_HERITAGE",
+    price: 135,
+    description: "Durable, breathable natural organic fiber jacket woven from wild hand-spun hemp.",
+    region: "High Highlands",
+    producer: "Weaving Cooperatives",
+    materialBlend: "100% Himalayan Hemp"
+  },
+  {
+    id: "rudraksha-01",
+    name: "5 Mukhi Rudraksha Mala",
+    pillar: "SACRED_ARTS",
+    price: 30,
+    description: "Sacred bead mala harvested responsibly from pristine eastern forests for meditation.",
+    region: "Sankhuwasabha",
+    producer: "Heritage Forest Keepers",
+    mukhiCount: 5
+  }
+];
 
-import schema from '~/public/static/schemas/unversioned/app-config-schema.json';
-import AppConfigSchemaTable from '~/ui/components/AppConfigSchemaTable';
-import { BoxLink } from '~/ui/components/BoxLink';
+export default function App() {
+  const [currentScreen, setCurrentScreen] = useState('welcome');
 
-The following is a list of properties that are available for you under the `"expo"` key in **app.json** or **app.config.json**. These properties can be passed to the top level object of **app.config.js** or **app.config.ts**.
+  // --- SCREEN 1: LUXURY TYPOGRAPHIC WELCOME INTERFACE ---
+  if (currentScreen === 'welcome') {
+    return (
+      <SafeAreaView style={styles.welcomeContainer}>
+        <StatusBar barStyle="dark-content" />
+        <View style={styles.welcomeMain}>
+          <Text style={styles.brandTitle}>Hempalaya</Text>
+          <Text style={styles.brandTagline}>
+            Raw high-altitude treasures from the lap of the Himalayas.
+          </Text>
+        </View>
+        <TouchableOpacity 
+          style={styles.primaryButton} 
+          onPress={() => setCurrentScreen('home')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.primaryButtonText}>Enter Marketplace</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
 
-<BoxLink
-  title="Configuration with app config"
-  description="For information on app configuration, the differences between various app config files, and how to use them dynamically."
-  href="/workflow/configuration/"
-  Icon={BookOpen02Icon}
-/>
+  // --- SCREEN 2: MAIN MARKETPLACE COMPONENT ---
+  const renderPillarSection = (title, categoryKey, isAmberBadge) => {
+    const items = HAMPALAYA_INVENTORY.filter(p => p.pillar === categoryKey);
+    return (
+      <View style={styles.sectionContainer} key={categoryKey}>
+        <View style={styles.sectionHeaderRow}>
+          <Text style={styles.sectionTitle}>{title}</Text>
+          <View style={[styles.badge, isAmberBadge ? styles.badgeAmber : styles.badgeMoss]}>
+            <Text style={styles.badgeText}>{items.length} Items</Text>
+          </View>
+        </View>
+        
+        {items.map(item => (
+          <View style={styles.productCard} key={item.id}>
+            <View style={styles.cardInfo}>
+              <Text style={styles.productName}>{item.name}</Text>
+              <Text style={styles.productMeta}>Origin: {item.region} • By {item.producer}</Text>
+              <Text style={styles.productDesc} numberOfLines={2}>{item.description}</Text>
+              {item.mukhiCount && (
+                <Text style={styles.specialSpec}>Specification: {item.mukhiCount} Mukhi Facets</Text>
+              )}
+              {item.materialBlend && (
+                <Text style={styles.specialSpec}>Material: {item.materialBlend}</Text>
+              )}
+            </View>
+            <View style={styles.cardAction}>
+              <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
+              <TouchableOpacity style={styles.miniCartButton}>
+                <Text style={styles.miniCartButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
+      </View>
+    );
+  };
 
-## Properties
+  return (
+    <SafeAreaView style={styles.homeContainer}>
+      <StatusBar barStyle="dark-content" />
+      
+      {/* Editorial Navigation Bar */}
+      <View style={styles.navbar}>
+        <Text style={styles.navMenuIcon}>☰</Text>
+        <Text style={styles.navBrand}>Hempalaya</Text>
+        <Text style={styles.navCartIcon}>👜</Text>
+      </View>
 
-<AppConfigSchemaTable schema={schema} />
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
+        {/* Transparency Mission Statement Banner */}
+        <View style={styles.bannerContainer}>
+          <Text style={styles.bannerText}>
+            Sourced with total transparency from local farmers & artisans of Nepal.
+          </Text>
+        </View>
+
+        {/* Dynamic Pillar Layout Sections */}
+        {renderPillarSection("The Himalayan Pantry", "HIMALAYAN_PANTRY", true)}
+        {renderPillarSection("Sustainable Heritage", "SUSTAINABLE_HERITAGE", false)}
+        {renderPillarSection("Sacred Arts", "SACRED_ARTS", true)}
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+// 2. LUXURY BRAND DESIGN SYSTEM CODES
+const styles = StyleSheet.create({
+  welcomeContainer: {
+    flex: 1,
+    backgroundColor: '#F7F4EF',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+  },
+  welcomeMain: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brandTitle: {
+    fontSize: 44,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    letterSpacing: 1,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  brandTagline: {
+    fontSize: 16,
+    color: '#555555',
+    textAlign: 'center',
+    lineHeight: 24,
+    paddingHorizontal: 20,
+  },
+  primaryButton: {
+    backgroundColor: '#1E352F',
+    paddingVertical: 18,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  primaryButtonText: {
+    color: '#F7F4EF',
+    fontSize: 16,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+  },
+  homeContainer: {
+    flex: 1,
+    backgroundColor: '#F7F4EF',
+  },
+  navbar: {
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBE7DF',
+  },
+  navMenuIcon: { fontSize: 22, color: '#1A1A1A' },
+  navBrand: { fontSize: 22, fontWeight: '700', color: '#1A1A1A', letterSpacing: 0.5 },
+  navCartIcon: { fontSize: 22 },
+  bannerContainer: {
+    margin: 20,
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#1E352F',
+    borderRadius: 2,
+  },
+  bannerText: {
+    color: '#1E352F',
+    fontSize: 13,
+    lineHeight: 18,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  sectionContainer: {
+    marginHorizontal: 20,
+    marginBottom: 28,
+  },
+  sectionHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    letterSpacing: 0.3,
+  },
+  badge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  badgeAmber: { backgroundColor: '#D4A373' },
+  badgeMoss: { backgroundColor: '#1E352F' },
+  badgeText: { color: '#FFFFFF', fontSize: 11, fontWeight: '600' },
+  productCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 6,
+    padding: 16,
+    marginBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+  },
+  cardInfo: { flex: 1, paddingRight: 12 },
+  productName: { fontSize: 16, fontWeight: '600', color: '#1A1A1A', marginBottom: 4 },
+  productMeta: { fontSize: 11, color: '#D4A373', fontWeight: '500', marginBottom: 6 },
+  productDesc: { fontSize: 13, color: '#666666', lineHeight: 18 },
+  specialSpec: { fontSize: 12, fontWeight: '600', color: '#1E352F', marginTop: 6 },
+  cardAction: { alignItems: 'flex-end', justifyContent: 'space-between', minWidth: 65 },
+  productPrice: { fontSize: 16, fontWeight: '700', color: '#1A1A1A' },
+  miniCartButton: {
+    backgroundColor: '#F7F4EF',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#EBE7DF',
+  },
+  miniCartButtonText: { fontSize: 18, color: '#1E352F', fontWeight: '600', marginTop: -2 },
+});
